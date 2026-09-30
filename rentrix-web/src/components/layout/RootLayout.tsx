@@ -119,6 +119,8 @@ export function RootLayout() {
         <div className="border-t">
           <p className="container mx-auto px-4 py-4 text-center text-xs text-muted-foreground">
             © {new Date().getFullYear()} {env.VITE_APP_NAME}. All rights reserved.
+            <br />
+            Built with ❤️ in India by Diwakar
           </p>
         </div>
       </footer>
