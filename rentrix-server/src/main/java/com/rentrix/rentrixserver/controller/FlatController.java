@@ -1,5 +1,6 @@
 package com.rentrix.rentrixserver.controller;
 
+import com.rentrix.rentrixserver.dto.PageResponse;
 import com.rentrix.rentrixserver.dto.filter.FlatFilterRequest;
 import com.rentrix.rentrixserver.dto.request.CreateFlatRequest;
 import com.rentrix.rentrixserver.dto.request.UpdateFlatRequest;
@@ -10,8 +11,8 @@ import com.rentrix.rentrixserver.service.FlatService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,9 +30,8 @@ public class FlatController {
 	
 	/** Public: list flats with optional filters. */
 	@GetMapping
-	public Page<FlatSummaryResponse> listFlats(@ModelAttribute FlatFilterRequest filter,
-		@PageableDefault(size = 9, sort = "rent") Pageable pageable) {
-		
+	public PageResponse<FlatSummaryResponse> listFlats(@ModelAttribute FlatFilterRequest filter,
+		@PageableDefault(size = 9, sort = "rent", direction = Sort.Direction.ASC) Pageable pageable) {
 		return flatService.listFlats(filter, pageable);
 	}
 	

@@ -1,14 +1,15 @@
 package com.rentrix.rentrixserver.controller;
 
 import com.rentrix.rentrixserver.dto.ModerateReviewRequest;
+import com.rentrix.rentrixserver.dto.PageResponse;
 import com.rentrix.rentrixserver.dto.ReviewDto;
 import com.rentrix.rentrixserver.entity.constants.ReviewStatus;
 import com.rentrix.rentrixserver.service.AdminService;
 import com.rentrix.rentrixserver.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,8 +28,8 @@ public class AdminController {
 	
 	/** List reviews filtered by status (default PENDING). */
 	@GetMapping("/reviews")
-	public Page<ReviewDto> listReviews(@RequestParam(defaultValue = "PENDING") ReviewStatus status,
-		@PageableDefault(size = 20) Pageable pageable) {
+	public PageResponse<ReviewDto> listReviews(@RequestParam(defaultValue = "PENDING") ReviewStatus status,
+		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		return adminService.getReviewsByStatus(status, pageable);
 	}
 	

@@ -1,21 +1,22 @@
 package com.rentrix.rentrixserver.service;
 
+import com.rentrix.rentrixserver.dto.PageResponse;
 import com.rentrix.rentrixserver.dto.filter.FlatFilterRequest;
 import com.rentrix.rentrixserver.dto.request.CreateFlatRequest;
 import com.rentrix.rentrixserver.dto.request.UpdateFlatRequest;
 import com.rentrix.rentrixserver.dto.response.FlatResponse;
 import com.rentrix.rentrixserver.dto.response.FlatSummaryResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface FlatService {
-	Page<FlatSummaryResponse> listFlats(FlatFilterRequest filter, Pageable pageable);
+	
+	PageResponse<FlatSummaryResponse> listFlats(FlatFilterRequest filter, Pageable pageable);
 	
 	FlatResponse getFlatById(Long id);
 	
-	FlatResponse createFlat(CreateFlatRequest createFlatRequest, Long ownerId);
+	FlatResponse createFlat(CreateFlatRequest request, Long ownerId);
 	
-	FlatResponse updateFlat(Long id, UpdateFlatRequest updateFlatRequest, Long requesterId, boolean isAdmin);
+	FlatResponse updateFlat(Long id, UpdateFlatRequest request, Long requesterId, boolean isAdmin);
 	
 	void deleteFlat(Long id, Long requesterId, boolean isAdmin);
 	

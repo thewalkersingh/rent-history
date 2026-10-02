@@ -1,5 +1,6 @@
 package com.rentrix.rentrixserver.service.impl;
 
+import com.rentrix.rentrixserver.dto.PageResponse;
 import com.rentrix.rentrixserver.dto.filter.FlatFilterRequest;
 import com.rentrix.rentrixserver.dto.request.CreateFlatRequest;
 import com.rentrix.rentrixserver.dto.request.UpdateFlatRequest;
@@ -15,7 +16,6 @@ import com.rentrix.rentrixserver.repository.specification.FlatSpecification;
 import com.rentrix.rentrixserver.service.FlatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +29,12 @@ public class FlatServiceImpl implements FlatService {
 	private final UserRepository userRepository;
 	
 	@Override
-	public Page<FlatSummaryResponse> listFlats(FlatFilterRequest filter, Pageable pageable) {
+	public PageResponse<FlatSummaryResponse> listFlats(FlatFilterRequest filter, Pageable pageable) {
 		log.info("List flats with filters: {}", filter);
-		return flatRepository.findAll(FlatSpecification.withFilters(filter), pageable)
-									.map(FlatMapper::toSummary);
+		return PageResponse.from(
+			flatRepository.findAll(FlatSpecification.withFilters(filter), pageable),
+			FlatMapper::toSummary
+		);
 	}
 	
 	@Override

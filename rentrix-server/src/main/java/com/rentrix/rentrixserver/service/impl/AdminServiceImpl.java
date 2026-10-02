@@ -1,5 +1,6 @@
 package com.rentrix.rentrixserver.service.impl;
 
+import com.rentrix.rentrixserver.dto.PageResponse;
 import com.rentrix.rentrixserver.dto.ReviewDto;
 import com.rentrix.rentrixserver.entity.Review;
 import com.rentrix.rentrixserver.entity.constants.ReviewStatus;
@@ -9,7 +10,6 @@ import com.rentrix.rentrixserver.repository.ReviewRepository;
 import com.rentrix.rentrixserver.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +22,8 @@ public class AdminServiceImpl implements AdminService {
 	private final ReviewRepository reviewRepository;
 	
 	@Override
-	public Page<ReviewDto> getReviewsByStatus(ReviewStatus status, Pageable pageable) {
-		return reviewRepository.findByStatus(status, pageable).map(ReviewMapper::toDto);
+	public PageResponse<ReviewDto> getReviewsByStatus(ReviewStatus status, Pageable pageable) {
+		return PageResponse.from(reviewRepository.findByStatus(status, pageable), (ReviewMapper::toDto));
 	}
 	
 	@Override
